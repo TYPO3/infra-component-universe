@@ -1,6 +1,6 @@
 # Instrastructure Component Universe
 
-Central maintaned webcomponent to navigate across TYPO3 Platforms.
+Central maintained web component to navigate across TYPO3 Platforms.
 
 ## Platform Keys
 
@@ -17,8 +17,8 @@ Central maintaned webcomponent to navigate across TYPO3 Platforms.
 1. Import the JavaScript into the Document
 
     ```javascript
-    <script src="webcomponents-loader.js"></script>
-    <script type="module" src="typo3-universe.js"></script>
+    <script src="https://typo3packages.blob.core.windows.net/typo3infrastructure/universe/dist/webcomponents-loader.js"></script>
+    <script type="module" src="https://typo3packages.blob.core.windows.net/typo3infrastructure/universe/dist/typo3-universe.js"></script>
     ```
 
 2.  Add the component to your application after the opening `body` tag.
