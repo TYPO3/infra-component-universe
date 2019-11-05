@@ -1,6 +1,6 @@
 # Instrastructure Component Universe
 
-Central maintaned webcomponent to navigate across TYPO3 Platforms.
+Central maintained web component to navigate across TYPO3 Platforms.
 
 ## Platform Keys
 
