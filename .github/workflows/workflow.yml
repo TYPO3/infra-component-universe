@@ -1,9 +1,6 @@
 name: Workflow
 
-on:
-  push:
-    branches:
-      - master
+on: [push]
 
 jobs:
   build:
@@ -16,3 +13,10 @@ jobs:
       - name: Build
         run: |
           yarn build
+          
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Status
+        run: ls -lah
