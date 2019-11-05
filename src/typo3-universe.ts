@@ -55,6 +55,7 @@ export class Universe extends LitElement {
                 background-color: var(--universe-background-color);
                 height: var(--universe-height);
                 overflow: hidden;
+                white-space: nowrap;
             }
             .universe-container {
                 display: flex;
