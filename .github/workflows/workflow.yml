@@ -28,6 +28,10 @@ jobs:
         with:
           name: dist
           path: universe/dist
-      - run: |
-          az storage blob upload-batch --source . --destination ${{ secrets.AZURE_CONTAINER }} --account-name ${{ secrets.AZURE_ACCOUNT }} --account-key ${{ secrets.AZURE_KEY }} --connection-string ${{ secrets.AZURE_CONNECTION }}
+      - name: Upload to Azure
+        env:
+          AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_ACCOUNT }}
+          AZURE_STORAGE_KEY: ${{ secrets.AZURE_KEY }}
+        run: |
+          az storage blob upload-batch --source . --destination ${{ secrets.AZURE_CONTAINER }}
 
