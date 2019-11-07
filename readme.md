@@ -26,7 +26,10 @@ Central maintained web component to navigate across TYPO3 Platforms.
     to the `active` attribute on the element.
 
     ```html
-    <typo3-universe active="{platformkey}"></typo3-universe>
+    <typo3-universe active="{platformkey}">
+        <!-- Fallback to consume the defined space on loading and no component support -->
+        <div style="display: block; height: 44px; background-color: #313131;"></div>
+    </typo3-universe>
     ```
 
 ## Build
