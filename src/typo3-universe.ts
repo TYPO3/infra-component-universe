@@ -162,6 +162,12 @@ export class Universe extends LitElement {
                 'href': 'https://docs.typo3.org',
                 'isButton': false
             },
+            'mytypo3': {
+                'label': 'My TYPO3',
+                'icon': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g fill="currentColor"><path d="M13.687 11.587c-1.476-.421-2.507-.998-3.533-1.394-.099-.322-.333-.893-.39-2.205.706-.712 1.212-1.716 1.212-2.525V3.537C10.976 2.137 9.838 1 8.35 1h-.7c-1.4 0-2.626 1.137-2.626 2.537v1.926c0 .816.512 1.831 1.228 2.544-.024 1.288-.266 1.856-.381 2.178-1.035.394-2.071.979-3.558 1.403 0 0-1.226.7-1.313 3.413h14c-.087-2.801-1.313-3.414-1.313-3.414z"/></g></svg>',
+                'href': 'https://my.typo3.org',
+                'isButton': false
+            },
             'download': {
                 'label': 'Get TYPO3',
                 'icon': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g fill="currentColor"><path d="M14.5 9h-3.973l-.874 1H14v3H2v-3h4.346l-.873-1H1.5a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5z"/><path d="M10 11h1v1h-1zM12 11h1v1h-1zM11.27 6H4.73a.25.25 0 0 0-.188.414l3.27 3.743a.244.244 0 0 0 .377 0l3.27-3.743A.25.25 0 0 0 11.27 6z"/><path d="M7 2h2v4H7z"/></g></svg>',
