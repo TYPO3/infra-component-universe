@@ -10,6 +10,7 @@ Central maintained web component to navigate across TYPO3 Platforms.
 | community       | Community Hub     | https://typo3.org              |
 | extensions      | Extensions        | https://extensions.typo3.org   |
 | documentation   | Documentation     | https://docs.typo3.org         |
+| mytypo3         | My TYPO3          | https://my.typo3.org           |
 | download        | Download Area     | https://get.typo3.org          |
 
 ## Usage
