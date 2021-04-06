@@ -93,6 +93,9 @@ export class Universe extends LitElement {
                 overflow: hidden;
                 opacity: .75;
             }
+            [dir="rtl"] .universe-icon {
+                transform: scaleX(-1);
+            }
             .universe-icon svg {
                 display: block;
                 height: 16px;
