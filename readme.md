@@ -8,6 +8,7 @@ Central maintained web component to navigate across TYPO3 Platforms.
 |-----------------|-------------------|--------------------------------|
 | services        | Business Hub      | https://typo3.com              |
 | community       | Community Hub     | https://typo3.org              |
+| demo            | Demo              | https://demo.typo3.org         |
 | extensions      | Extensions        | https://extensions.typo3.org   |
 | documentation   | Documentation     | https://docs.typo3.org         |
 | shop            | Shop              | https://shop.typo3.com         |
