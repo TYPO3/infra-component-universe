@@ -150,6 +150,12 @@ export class Universe extends LitElement {
                 'href': 'https://typo3.org',
                 'isButton': false
             },
+            'demo': {
+                'label': 'Demo',
+                'icon': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g fill="currentColor"><path d="M5 3.9L11.2 8 5 12.1V3.9m0-1c-.5 0-1 .4-1 1v8.3c0 .6.5 1 1 1 .2 0 .4-.1.6-.2l6.2-4.1c.6-.4.6-1.3 0-1.7L5.6 3c-.2-.1-.4-.1-.6-.1z"/></g></svg>',
+                'href': 'https://demo.typo3.org',
+                'isButton': false
+            },
             'extensions': {
                 'label': 'Extensions',
                 'icon': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g fill="currentColor"><path d="M13.408 3.546L7.913 1.087a1.002 1.002 0 0 0-.817 0L1.592 3.545c-.36.161-.592.519-.592.914v7.102a1 1 0 0 0 .594.914l5.496 2.439a1.003 1.003 0 0 0 .812 0l5.504-2.446a1 1 0 0 0 .594-.914V4.459a1 1 0 0 0-.592-.913zM7.504 2l4.89 2.187L7.5 6.449 2.607 4.188 7.504 2zM2 5.01l5 2.31v6.46l-5-2.219V5.01zm6 8.766V7.32l5-2.31v6.545l-5 2.221z" /></g></svg>',
