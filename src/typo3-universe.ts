@@ -89,9 +89,12 @@ export class Universe extends LitElement {
                 display: block;
                 height: 16px;
                 width: 16px;
-                margin-right: .5em;
+                margin-inline-end: 0.5em;
                 overflow: hidden;
                 opacity: .75;
+            }
+            [dir="rtl"] .universe-icon {
+                transform: scaleX(-1);
             }
             .universe-icon svg {
                 display: block;
@@ -123,14 +126,14 @@ export class Universe extends LitElement {
                 display: flex;
                 padding: 0;
                 margin: 0;
-                margin-left: auto;
+                margin-inline-start: auto;
                 list-style: none;
             }
             .universe-menu li {
-                margin-left: 1px;
+                margin-inline-start: 1px;
             }
             .universe-menu li:first-child {
-                margin-left: 0;
+                margin-inline-start: 0;
             }
         `;
     }
