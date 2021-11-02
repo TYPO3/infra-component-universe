@@ -6,7 +6,7 @@ Central maintained web component to navigate across TYPO3 Platforms.
 
 | Key             | Platform          | Url                            |
 |-----------------|-------------------|--------------------------------|
-| services        | Business Hub      | https://typo3.com              |
+| services        | Product Hub       | https://typo3.com              |
 | community       | Community Hub     | https://typo3.org              |
 | demo            | Demo              | https://demo.typo3.org         |
 | extensions      | Extensions        | https://extensions.typo3.org   |
@@ -19,7 +19,7 @@ Central maintained web component to navigate across TYPO3 Platforms.
 
 1. Import the JavaScript into the Document
 
-    ```javascript
+    ```html
     <script src="https://typo3.azureedge.net/typo3infrastructure/universe/dist/webcomponents-loader.js"></script>
     <script type="module" src="https://typo3.azureedge.net/typo3infrastructure/universe/dist/typo3-universe.js"></script>
     ```
@@ -41,3 +41,12 @@ Central maintained web component to navigate across TYPO3 Platforms.
 yarn install
 yarn build
 ```
+
+## CDN Cache Clearing
+
+1. Go to https://portal.azure.com/
+2. Select Home > CDN profiles > TYPO3
+3. Select Purge
+   1. Endpoint: typo3.azureedge.net
+   2. Content path: `/typo3infrastructure/universe/*`
+   3. Purge
