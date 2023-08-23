@@ -14,6 +14,7 @@
     "serve": "serve ./dist/",
     "copy-index": "scopy ./src/index.html ./dist/index.html",
     "copy-loader": "scopy ./node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js ./dist/webcomponents-loader.js && scopy ./node_modules/@webcomponents/webcomponentsjs/bundles/ ./dist/bundles/ -D",
+    "check": "node_modules/.bin/tsc --noEmit",
     "build": "npm run copy-index && npm run copy-loader && node esbuild.mjs"
   },
   "engines": {
