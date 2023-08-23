@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta charset="UTF-8">
-    <script src="webcomponents-loader.js"></script>
-    <script type="module" src="typo3-universe.js"></script>
+    <script type="module" async src="typo3-universe.js"></script>
 </head>
 <body>
-    <typo3-universe active="community"></typo3-universe>
+    <typo3-universe active="community">
+        <!-- Fallback to consume the defined space on loading and no component support -->
+        <div style="display: block; height: 44px; background-color: #313131;"></div>
+    </typo3-universe>
 </body>

@@ -20,8 +20,7 @@ Central maintained web component to navigate across TYPO3 Platforms.
 1. Import the JavaScript into the Document
 
     ```html
-    <script src="https://typo3.azureedge.net/typo3infrastructure/universe/dist/webcomponents-loader.js"></script>
-    <script type="module" src="https://typo3.azureedge.net/typo3infrastructure/universe/dist/typo3-universe.js"></script>
+    <script type="module" async src="https://typo3.azureedge.net/typo3infrastructure/universe/dist/typo3-universe.js"></script>
     ```
 
 2.  Add the component to your application after the opening `body` tag.
@@ -38,8 +37,8 @@ Central maintained web component to navigate across TYPO3 Platforms.
 ## Build
 
 ```bash
-yarn install
-yarn build
+npm install
+npm run build
 ```
 
 ## CDN Cache Clearing
