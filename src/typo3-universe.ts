@@ -197,7 +197,7 @@ export class Universe extends LitElement {
             let entry = entries[identifier];
             items.push(html`
                 <a class="universe-${entry.isButton ? 'button' : 'link'}${identifier === this.active ? ' universe-active': ''}" href="${entry.href}">
-                    <span class="universe-icon">${unsafeHTML(entry.icon)}</span>
+                    <span class="universe-icon" aria-hidden="true">${unsafeHTML(entry.icon)}</span>
                     <span class="universe-text">${entry.label}</span>
                 </a>
             `);
