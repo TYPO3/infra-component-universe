@@ -20,7 +20,7 @@ Central maintained web component to navigate across TYPO3 Platforms.
 1. Import the JavaScript into the Document
 
     ```html
-    <script type="module" async src="https://typo3.azureedge.net/typo3infrastructure/universe/dist/typo3-universe.js"></script>
+    <script type="module" async src="https://cdn.typo3.com/typo3infrastructure/universe/dist/typo3-universe.js"></script>
     ```
 
 2.  Add the component to your application after the opening `body` tag.
@@ -40,12 +40,3 @@ Central maintained web component to navigate across TYPO3 Platforms.
 npm install
 npm run build
 ```
-
-## CDN Cache Clearing
-
-1. Go to https://portal.azure.com/
-2. Select Home > CDN profiles > TYPO3
-3. Select Purge
-   1. Endpoint: typo3.azureedge.net
-   2. Content path: `/typo3infrastructure/universe/*`
-   3. Purge
