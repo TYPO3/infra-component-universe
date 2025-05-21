@@ -1,6 +1,284 @@
-import { LitElement, css, html, svg, TemplateResult } from 'lit';
+import { LitElement, html, svg, TemplateResult, css, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+
+const defaultStyles = `
+  :host {
+    --universe-zindex: 1;
+    --universe-height: 44px;
+    --universe-font-size: 14px;
+    --universe-maxwidth: 1100px;
+    --universe-text-color: #dadada;
+    --universe-link-color: #ffffff;
+    --universe-link-padding-horizontal: 1rem;
+    --universe-link-padding-vertical: .5rem;
+    --universe-background-color: #313131;
+    --universe-link-color: #ffffff;
+    --universe-link-background: #414141;
+    --universe-link-hover-color: #ffffff;
+    --universe-link-hover-background: #515151;
+    --universe-caret-color: #ffffff;
+    --universe-button-color: #ffffff;
+    --universe-button-background: #ff8700;
+    --universe-button-hover-color: #ffffff;
+    --universe-button-hover-background: #ee7600;
+  }
+
+  *,
+  *:before,
+  *:after {
+      box-sizing: border-box;
+  }
+
+  .universe {
+      position: relative;
+      z-index: var(--universe-zindex);
+      font-size: var(--universe-font-size);
+      color: var(--universe-text-color);
+      background-color: var(--universe-background-color);
+      height: var(--universe-height);
+      overflow: hidden;
+      white-space: nowrap;
+  }
+
+  .universe-container {
+      display: flex;
+      align-items: right;
+      max-width: var(--universe-maxwidth);
+      margin: 0 auto;
+      padding: 0;
+      overflow-x: scroll;
+  }
+
+  .universe-menu {
+      display: flex;
+      padding: 0;
+      margin: 0;
+      margin-inline-start: auto;
+      gap: 1px;
+      list-style: none;
+  }
+
+  .universe-item {
+      --item-background: var(--universe-background-color);
+      --item-color: var(--universe-text-color);
+      --item-padding-vertical: var(--universe-link-padding-vertical);
+      --item-padding-horizontal: var(--universe-link-padding-horizontal);
+      color: var(--item-color);
+      background: var(--item-background);
+      position: relative;
+      display: flex;
+      gap: .5em;
+      overflow: hidden;
+      height: var(--universe-height);
+      align-items: center;
+      padding: var(--item-padding-vertical) var(--item-padding-horizontal);
+      text-decoration: none;
+  }
+  .universe-item:focus {
+      z-index: 1;
+      outline: none;
+  }
+  .universe-item:focus-visible {
+      box-shadow:
+      inset 0 0 0 2px var(--item-background),
+      inset 0 0 0 4px var(--item-color);
+  }
+
+  .universe-item-icon {
+      display: block;
+      height: 16px;
+      width: 16px;
+      overflow: hidden;
+      opacity: .75;
+  }
+  .universe-item-icon svg {
+      display: block;
+      height: 16px;
+      width: 16px;
+  }
+  [dir="rtl"] .universe-item-icon {
+      transform: scaleX(-1);
+  }
+
+  .universe-item--active:before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      height: .8em;
+      width: .8em;
+      transform: translate(-50%, 0);
+      border: calc(.4em + 4px) solid transparent;
+      border-bottom-color: var(--item-background);
+  }
+
+  .universe-item--active:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      height: .8em;
+      width: .8em;
+      transform: translate(-50%, 0);
+      border: .4em solid transparent;
+      border-bottom-color: var(--universe-caret-color);
+  }
+
+  .universe-item--link {
+      --item-color: var(--universe-link-color);
+      --item-background: var(--universe-link-background);
+  }
+  .universe-item--link:focus,
+  .universe-item--link:hover {
+      --item-color: var(--universe-link-hover-color);
+      --item-background: var(--universe-link-hover-background);
+  }
+
+  .universe-item--button {
+      --item-color: var(--universe-button-color);
+      --item-background: var(--universe-button-background);
+  }
+  .universe-item--button:focus,
+  .universe-item--button:hover {
+      --item-color: var(--universe-button-hover-color);
+      --item-background: var(--universe-button-hover-background);
+  }
+`;
+
+const tempStyles = `
+  :root {
+    --universe-zindex: 1;
+    --universe-height: 40px;
+    --universe-font-size: 14px;
+    --universe-maxwidth: 1440px;
+    --universe-text-color: #fff;
+    --universe-divider-color: #555;
+    --universe-link-color: #fff;
+    --universe-link-padding-horizontal: .9375rem;
+    --universe-link-padding-vertical: .625rem;
+    --universe-background-color: #313130;
+    --universe-link-color: #fff;
+    --universe-link-background: #313130;
+    --universe-link-hover-color: #fff;
+    --universe-link-hover-background: #515151;
+  }
+
+  *,
+  *:before,
+  *:after {
+      box-sizing: border-box;
+  }
+
+  .universe {
+      position: relative;
+      z-index: var(--universe-zindex);
+      font-size: var(--universe-font-size);
+      color: var(--universe-text-color);
+      background-color: var(--universe-background-color);
+      height: var(--universe-height);
+      overflow: hidden;
+      white-space: nowrap;
+  }
+
+  .universe-container {
+      display: flex;
+      align-items: right;
+      max-width: var(--universe-maxwidth);
+      margin: 0 auto;
+      padding: 0;
+      overflow-x: scroll;
+  }
+
+  .universe-menu {
+      display: flex;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      list-style: none;
+  }
+
+  .universe-item {
+      --item-background: var(--universe-background-color);
+      --item-color: var(--universe-text-color);
+      --item-padding-vertical: var(--universe-link-padding-vertical);
+      --item-padding-horizontal: var(--universe-link-padding-horizontal);
+      color: var(--item-color);
+      background: var(--item-background);
+      position: relative;
+      display: flex;
+      gap: .25rem;
+      overflow: hidden;
+      height: var(--universe-height);
+      align-items: center;
+      padding: var(--item-padding-vertical) var(--item-padding-horizontal);
+      text-decoration: none;
+  }
+  .universe-item:focus {
+      z-index: 1;
+      outline: none;
+  }
+  .universe-item:focus-visible {
+      box-shadow:
+      inset 0 0 0 2px var(--item-background),
+      inset 0 0 0 4px var(--item-color);
+  }
+
+  .universe-item-icon {
+      display: block;
+      height: 16px;
+      width: 16px;
+      overflow: hidden;
+      opacity: .56;
+  }
+  .universe-item-icon svg {
+      display: block;
+      height: 16px;
+      width: 16px;
+  }
+  [dir="rtl"] .universe-item-icon {
+      transform: scaleX(-1);
+  }
+
+  .universe-item--link.universe-item--active,
+  .universe-item--link.universe-item--active:hover {
+      --item-background: var(--universe-text-color);
+      --item-color: var(--universe-background-color);
+      font-weight: 600;
+  }
+
+  .universe-item--link {
+      --item-color: var(--universe-link-color);
+      --item-background: var(--universe-link-background);
+      font-weight: normal;
+  }
+  .universe-item--link:hover {
+      --item-color: var(--universe-link-hover-color);
+      --item-background: var(--universe-link-hover-background);
+  }
+
+  .universe-menu-spacer {
+      display: block;
+      flex-grow: 1;
+  }
+  .universe-menu-item {
+      border-right: 1px solid var(--universe-divider-color);
+  }
+  .universe-menu-item:has(+ .universe-menu-spacer),
+  .universe-menu-item + .universe-menu-spacer,
+  .universe-menu-spacer ~ .universe-menu-item {
+      border-right: unset;
+  }
+  .universe-menu-spacer ~ .universe-menu-item .universe-item {
+      padding-left: calc(var(--item-padding-horizontal) * 0.67);
+      padding-right: calc(var(--item-padding-horizontal) * 0.67);
+  }
+  .universe-menu-spacer ~ .universe-menu-item .universe-item:hover {
+      --item-background: unset;
+      text-decoration: underline;
+  }
+
+`;
 
 export interface MenuEntry {
   readonly label: string,
@@ -10,10 +288,10 @@ export interface MenuEntry {
 }
 
 export interface Menu {
-  readonly [key: string]: MenuEntry
+  readonly [key: string]: MenuEntry | { type: 'spacer' }
 }
 
-const entries : Menu = {
+const defaultEntries : Menu = {
   'services': {
     'label': 'Product',
     'icon': svg`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="currentColor"><path d="M11.5 10.6c-.2.1-.4.1-.6.1-1.8 0-4.4-6.2-4.4-8.3 0-.8.2-1 .4-1.2-2.1.3-4.7 1.1-5.5 2.1-.2.2-.3.6-.3 1.1C1.1 7.7 4.5 15 7 15c1.1 0 3-1.8 4.5-4.4M10.4 1c2.2 0 4.5.4 4.5 1.6 0 2.6-1.6 5.7-2.5 5.7-1.5 0-3.3-4.1-3.3-6.2 0-.9.4-1.1 1.3-1.1"/></g></svg>`,
@@ -64,162 +342,69 @@ const entries : Menu = {
   }
 } as const;
 
+const tempEntries : Menu = {
+  'services': {
+    'label': 'TYPO3',
+    'icon': false,
+    'href': 'https://relaunch-com.typo3.dev/',
+    'isButton': false,
+  },
+  'community': {
+    'label': 'Community',
+    'icon': svg`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="currentColor"><path d="M5 9H3.697l-.252.168L2 10.131V3h7v1h1V2.25A.25.25 0 0 0 9.75 2h-8.5a.25.25 0 0 0-.25.25V12l3-2h1V9z"/><path d="M14 6v7.131l-1.445-.964-.252-.167H7V6h7m.75-1h-8.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25H12l3 2V5.25a.25.25 0 0 0-.25-.25z"/><path d="M8 7h5v1H8zM8 9h2v1H8z"/></g></svg>`,
+    'href': 'https://typo3.org',
+    'isButton': false
+  },
+  'spacer1': { type: 'spacer' },
+  'extensions': {
+    'label': 'Extensions',
+    'icon': false,
+    'href': 'https://extensions.typo3.org',
+    'isButton': false
+  },
+  'documentation': {
+    'label': 'Documentation',
+    'icon': false,
+    'isButton': false
+  },
+  'shop': {
+    'label': 'Shop',
+    'icon': false,
+    'href': 'https://shop.typo3.com',
+    'isButton': false
+  },
+  'mytypo3': {
+    'label': 'My TYPO3',
+    'icon': false,
+    'href': 'https://my.typo3.org',
+    'isButton': false
+  },
+  'download': {
+    'label': 'Get TYPO3',
+    'icon': svg`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="currentColor"><path d="M14.5 9h-3.973l-.874 1H14v3H2v-3h4.346l-.873-1H1.5a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5z"/><path d="M10 11h1v1h-1zM12 11h1v1h-1zM11.27 6H4.73a.25.25 0 0 0-.188.414l3.27 3.743a.244.244 0 0 0 .377 0l3.27-3.743A.25.25 0 0 0 11.27 6z"/><path d="M7 2h2v4H7z"/></g></svg>`,
+    'href': 'https://get.typo3.org',
+    'isButton': false
+  }
+} as const;
+
 @customElement('typo3-universe')
 export class Typo3UniverseElement extends LitElement {
 
-  @property()
-  public active: keyof typeof entries | undefined;
-
-  static styles =css`
-    :host {
-      --universe-zindex: 1;
-      --universe-height: 44px;
-      --universe-font-size: 14px;
-      --universe-maxwidth: 1100px;
-      --universe-text-color: #dadada;
-      --universe-link-color: #ffffff;
-      --universe-link-padding-horizontal: 1rem;
-      --universe-link-padding-vertical: .5rem;
-      --universe-background-color: #313131;
-      --universe-link-color: #ffffff;
-      --universe-link-background: #414141;
-      --universe-link-hover-color: #ffffff;
-      --universe-link-hover-background: #515151;
-      --universe-caret-color: #ffffff;
-      --universe-button-color: #ffffff;
-      --universe-button-background: #ff8700;
-      --universe-button-hover-color: #ffffff;
-      --universe-button-hover-background: #ee7600;
-    }
-
-    *,
-    *:before,
-    *:after {
-      box-sizing: border-box;
-    }
-
-    .universe {
-      position: relative;
-      z-index: var(--universe-zindex);
-      font-size: var(--universe-font-size);
-      color: var(--universe-text-color);
-      background-color: var(--universe-background-color);
-      height: var(--universe-height);
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .universe-container {
-      display: flex;
-      align-items: right;
-      max-width: var(--universe-maxwidth);
-      margin: 0 auto;
-      padding: 0;
-      overflow-x: scroll;
-    }
-
-    .universe-menu {
-      display: flex;
-      padding: 0;
-      margin: 0;
-      margin-inline-start: auto;
-      gap: 1px;
-      list-style: none;
-    }
-
-    .universe-item {
-      --item-background: var(--universe-background-color);
-      --item-color: var(--universe-text-color);
-      --item-padding-vertical: var(--universe-link-padding-vertical);
-      --item-padding-horizontal: var(--universe-link-padding-horizontal);
-      color: var(--item-color);
-      background: var(--item-background);
-      position: relative;
-      display: flex;
-      gap: .5em;
-      overflow: hidden;
-      height: var(--universe-height);
-      align-items: center;
-      padding: var(--item-padding-vertical) var(--item-padding-horizontal);
-      text-decoration: none;
-    }
-    .universe-item:focus {
-      z-index: 1;
-      outline: none;
-    }
-    .universe-item:focus-visible {
-      box-shadow:
-        inset 0 0 0 2px var(--item-background),
-        inset 0 0 0 4px var(--item-color);
-    }
-
-    .universe-item-icon {
-      display: block;
-      height: 16px;
-      width: 16px;
-      overflow: hidden;
-      opacity: .75;
-    }
-    .universe-item-icon svg {
-      display: block;
-      height: 16px;
-      width: 16px;
-    }
-    [dir="rtl"] .universe-item-icon {
-      transform: scaleX(-1);
-    }
-
-    .universe-item--active:before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      height: .8em;
-      width: .8em;
-      transform: translate(-50%, 0);
-      border: calc(.4em + 4px) solid transparent;
-      border-bottom-color: var(--item-background);
-    }
-
-    .universe-item--active:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      height: .8em;
-      width: .8em;
-      transform: translate(-50%, 0);
-      border: .4em solid transparent;
-      border-bottom-color: var(--universe-caret-color);
-    }
-
-    .universe-item--link {
-      --item-color: var(--universe-link-color);
-      --item-background: var(--universe-link-background);
-    }
-    .universe-item--link:focus,
-    .universe-item--link:hover {
-      --item-color: var(--universe-link-hover-color);
-      --item-background: var(--universe-link-hover-background);
-    }
-
-    .universe-item--button {
-      --item-color: var(--universe-button-color);
-      --item-background: var(--universe-button-background);
-    }
-    .universe-item--button:focus,
-    .universe-item--button:hover {
-      --item-color: var(--universe-button-hover-color);
-      --item-background: var(--universe-button-hover-background);
-    }
-  `;
+  @property() public active: string | undefined;
 
   protected render(): TemplateResult {
+    const isTemp = this.hasAttribute('data-temp');
+    const entries = isTemp ? tempEntries : defaultEntries;
+
     return html`
       <div class="universe">
         <div class="universe-container">
             <ul class="universe-menu">
-              ${Object.entries(entries).map(([identifier, entry]) => html`
+              ${Object.entries(entries).map(([identifier, entry]) => {
+              if ('type' in entry && entry.type === 'spacer') {
+                return html`<li class="universe-menu-spacer" aria-hidden="true"></li>`;
+              }
+              return html`
                 <li class="universe-menu-item">
                   <a href=${entry.href} class=${classMap({
                     'universe-item': true,
@@ -227,14 +412,32 @@ export class Typo3UniverseElement extends LitElement {
                     'universe-item--link': !entry.isButton,
                     'universe-item--active': identifier === this.active
                   })}>
-                    <span class="universe-item-icon" aria-hidden="true">${entry.icon}</span>
+                    ${entry.icon
+                      ? html`<span class="universe-item-icon" aria-hidden="true">${entry.icon}</span>`
+                      : null}
                     <span class="universe-item-text">${entry.label}</span>
                   </a>
-                </li>
-              `)}
+                </li>`;
+            })}
             </ul>
         </div>
       </div>
     `;
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
+    console.log('Shadow root mode:', this.shadowRoot?.mode);
+    console.log('Using temp styles?', this.hasAttribute('data-temp'));
+
+    try {
+      const isTemp = this.hasAttribute('data-temp');
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync(isTemp ? tempStyles : defaultStyles);
+      this.shadowRoot!.adoptedStyleSheets = [sheet];
+      console.log('Stylesheet applied');
+    } catch (error) {
+      console.error('Stylesheet error:', error);
+    }
   }
 }
