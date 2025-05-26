@@ -348,7 +348,7 @@ tempStyles.replaceSync(`
 export class Typo3UniverseElement extends LitElement {
 
   @property() public active: string | undefined;
-  @property({ type: String, attribute: 'data-entries' }) menuData: string = '';
+  @property({ type: String, attribute: 'entries' }) menuData: string = '';
 
   parsedMenu: { [key: string]: MenuEntry | { type: 'spacer' } } = {};
 
