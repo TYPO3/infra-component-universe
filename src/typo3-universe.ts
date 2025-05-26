@@ -1,4 +1,4 @@
-import { LitElement, html, svg, TemplateResult, css, unsafeCSS } from 'lit';
+import { LitElement, html, svg, css, unsafeCSS, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
@@ -147,7 +147,7 @@ const defaultStyles = `
 `;
 
 const tempStyles = `
-  :root {
+  :host {
     --universe-zindex: 1;
     --universe-height: 40px;
     --universe-font-size: 14px;
@@ -391,16 +391,20 @@ const tempEntries : Menu = {
 export class Typo3UniverseElement extends LitElement {
 
   @property() public active: string | undefined;
+  @property({type: Boolean, reflect: true}) temp: boolean = false;
 
   protected render(): TemplateResult {
-    const isTemp = this.hasAttribute('data-temp');
+    const isTemp = this.temp;
+    const styles = isTemp ? tempStyles : defaultStyles;
     const entries = isTemp ? tempEntries : defaultEntries;
 
     return html`
+      <style>${unsafeCSS(styles)}</style>
+
       <div class="universe">
         <div class="universe-container">
-            <ul class="universe-menu">
-              ${Object.entries(entries).map(([identifier, entry]) => {
+          <ul class="universe-menu">
+            ${Object.entries(entries).map(([identifier, entry]) => {
               if ('type' in entry && entry.type === 'spacer') {
                 return html`<li class="universe-menu-spacer" aria-hidden="true"></li>`;
               }
@@ -419,25 +423,9 @@ export class Typo3UniverseElement extends LitElement {
                   </a>
                 </li>`;
             })}
-            </ul>
+          </ul>
         </div>
       </div>
     `;
-  }
-
-  connectedCallback(): void {
-    super.connectedCallback();
-    console.log('Shadow root mode:', this.shadowRoot?.mode);
-    console.log('Using temp styles?', this.hasAttribute('data-temp'));
-
-    try {
-      const isTemp = this.hasAttribute('data-temp');
-      const sheet = new CSSStyleSheet();
-      sheet.replaceSync(isTemp ? tempStyles : defaultStyles);
-      this.shadowRoot!.adoptedStyleSheets = [sheet];
-      console.log('Stylesheet applied');
-    } catch (error) {
-      console.error('Stylesheet error:', error);
-    }
   }
 }
