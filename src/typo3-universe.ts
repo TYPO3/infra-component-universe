@@ -139,37 +139,37 @@ export class Typo3UniverseElement extends LitElement {
         *,
         *:before,
         *:after {
-            box-sizing: border-box;
+          box-sizing: border-box;
         }
 
         .universe {
-            position: relative;
-            z-index: var(--universe-zindex);
-            font-size: var(--universe-font-size);
-            color: var(--universe-text-color);
-            background-color: var(--universe-background-color);
-            height: var(--universe-height);
-            overflow: hidden;
-            white-space: nowrap;
+          position: relative;
+          z-index: var(--universe-zindex);
+          font-size: var(--universe-font-size);
+          color: var(--universe-text-color);
+          background-color: var(--universe-background-color);
+          height: var(--universe-height);
+          overflow: hidden;
+          white-space: nowrap;
         }
 
         .universe-container {
-            display: flex;
-            align-items: flex-end;
-            max-width: var(--universe-maxwidth);
-            margin: 0 auto;
-            padding: 0;
-            overflow-x: scroll;
+          display: flex;
+          align-items: flex-end;
+          max-width: var(--universe-maxwidth);
+          margin: 0 auto;
+          padding: 0;
+          overflow-x: scroll;
         }
 
         .universe-menu {
-            display: flex;
-            padding: 0;
-            margin: 0;
-            width: 100%;
-            justify-content: flex-end;
-            gap: 1px;
-            list-style: none;
+          display: flex;
+          padding: 0;
+          margin: 0;
+          width: 100%;
+          justify-content: flex-end;
+          gap: 1px;
+          list-style: none;
         }
 
         .universe-menu-spacer {
@@ -178,89 +178,89 @@ export class Typo3UniverseElement extends LitElement {
         }
 
         .universe-item {
-            --item-background: var(--universe-background-color);
-            --item-color: var(--universe-text-color);
-            --item-padding-vertical: var(--universe-link-padding-vertical);
-            --item-padding-horizontal: var(--universe-link-padding-horizontal);
-            color: var(--item-color);
-            background: var(--item-background);
-            position: relative;
-            display: flex;
-            gap: .5em;
-            overflow: hidden;
-            height: var(--universe-height);
-            align-items: center;
-            padding: var(--item-padding-vertical) var(--item-padding-horizontal);
-            text-decoration: none;
+          --item-background: var(--universe-background-color);
+          --item-color: var(--universe-text-color);
+          --item-padding-vertical: var(--universe-link-padding-vertical);
+          --item-padding-horizontal: var(--universe-link-padding-horizontal);
+          color: var(--item-color);
+          background: var(--item-background);
+          position: relative;
+          display: flex;
+          gap: .5em;
+          overflow: hidden;
+          height: var(--universe-height);
+          align-items: center;
+          padding: var(--item-padding-vertical) var(--item-padding-horizontal);
+          text-decoration: none;
         }
         .universe-item:focus {
-            z-index: 1;
-            outline: none;
+          z-index: 1;
+          outline: none;
         }
         .universe-item:focus-visible {
-            box-shadow:
-            inset 0 0 0 2px var(--item-background),
-            inset 0 0 0 4px var(--item-color);
+          box-shadow:
+          inset 0 0 0 2px var(--item-background),
+          inset 0 0 0 4px var(--item-color);
         }
 
         .universe-item-icon {
-            display: block;
-            height: 16px;
-            width: 16px;
-            overflow: hidden;
-            opacity: .75;
+          display: block;
+          height: 16px;
+          width: 16px;
+          overflow: hidden;
+          opacity: .75;
         }
         .universe-item-icon svg {
-            display: block;
-            height: 16px;
-            width: 16px;
+          display: block;
+          height: 16px;
+          width: 16px;
         }
         [dir="rtl"] .universe-item-icon {
-            transform: scaleX(-1);
+          transform: scaleX(-1);
         }
 
         .universe-item--active:before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            height: .8em;
-            width: .8em;
-            transform: translate(-50%, 0);
-            border: calc(.4em + 4px) solid transparent;
-            border-bottom-color: var(--item-background);
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          height: .8em;
+          width: .8em;
+          transform: translate(-50%, 0);
+          border: calc(.4em + 4px) solid transparent;
+          border-bottom-color: var(--item-background);
         }
 
         .universe-item--active:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            height: .8em;
-            width: .8em;
-            transform: translate(-50%, 0);
-            border: .4em solid transparent;
-            border-bottom-color: var(--universe-caret-color);
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          height: .8em;
+          width: .8em;
+          transform: translate(-50%, 0);
+          border: .4em solid transparent;
+          border-bottom-color: var(--universe-caret-color);
         }
 
         .universe-item--link {
-            --item-color: var(--universe-link-color);
-            --item-background: var(--universe-link-background);
+          --item-color: var(--universe-link-color);
+          --item-background: var(--universe-link-background);
         }
         .universe-item--link:focus,
         .universe-item--link:hover {
-            --item-color: var(--universe-link-hover-color);
-            --item-background: var(--universe-link-hover-background);
+          --item-color: var(--universe-link-hover-color);
+          --item-background: var(--universe-link-hover-background);
         }
 
         .universe-item--button {
-            --item-color: var(--universe-button-color);
-            --item-background: var(--universe-button-background);
+          --item-color: var(--universe-button-color);
+          --item-background: var(--universe-button-background);
         }
         .universe-item--button:focus,
         .universe-item--button:hover {
-            --item-color: var(--universe-button-hover-color);
-            --item-background: var(--universe-button-hover-background);
+          --item-color: var(--universe-button-hover-color);
+          --item-background: var(--universe-button-hover-background);
         }
 
         :host([preview]) {
@@ -289,12 +289,12 @@ export class Typo3UniverseElement extends LitElement {
         :host([preview]) .universe-menu-item:has(+ .universe-menu-spacer),
         :host([preview]) .universe-menu-item + .universe-menu-spacer,
         :host([preview]) .universe-menu-spacer ~ .universe-menu-item {
-            border-right: unset;
+          border-right: unset;
         }
 
         :host([preview]) .universe-menu-spacer ~ .universe-menu-item .universe-item {
-            padding-left: calc(var(--item-padding-horizontal) * 0.67);
-            padding-right: calc(var(--item-padding-horizontal) * 0.67);
+          padding-left: calc(var(--item-padding-horizontal) * 0.67);
+          padding-right: calc(var(--item-padding-horizontal) * 0.67);
         }
 
         :host([preview]) .universe-menu-spacer ~ .universe-menu-item .universe-item:hover {
