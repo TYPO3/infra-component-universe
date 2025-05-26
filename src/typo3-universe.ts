@@ -1,8 +1,9 @@
-import { LitElement, html, svg, css, unsafeCSS, TemplateResult } from 'lit';
+import { LitElement, html, svg, unsafeCSS, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-const defaultStyles = `
+const defaultStyles = new CSSStyleSheet();
+defaultStyles.replaceSync(`
   :host {
     --universe-zindex: 1;
     --universe-height: 44px;
@@ -43,7 +44,7 @@ const defaultStyles = `
 
   .universe-container {
       display: flex;
-      align-items: right;
+      align-items: flex-end;
       max-width: var(--universe-maxwidth);
       margin: 0 auto;
       padding: 0;
@@ -144,9 +145,9 @@ const defaultStyles = `
       --item-color: var(--universe-button-hover-color);
       --item-background: var(--universe-button-hover-background);
   }
-`;
-
-const tempStyles = `
+`);
+const tempStyles = new CSSStyleSheet();
+tempStyles.replaceSync(`
   :host {
     --universe-zindex: 1;
     --universe-height: 40px;
@@ -278,11 +279,11 @@ const tempStyles = `
       text-decoration: underline;
   }
 
-`;
+`);
 
 export interface MenuEntry {
   readonly label: string,
-  readonly icon: TemplateResult,
+  readonly icon?: TemplateResult,
   readonly href: string,
   readonly isButton: boolean
 }
@@ -343,39 +344,52 @@ const defaultEntries : Menu = {
 } as const;
 
 const tempEntries : Menu = {
-  'services': {
+  'typo3': {
     'label': 'TYPO3',
-    'icon': false,
-    'href': 'https://relaunch-com.typo3.dev/',
+    'icon': undefined,
+    'href': 'https://com.site-typo3.ddev.site/',
     'isButton': false,
   },
   'community': {
     'label': 'Community',
-    'icon': svg`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="currentColor"><path d="M5 9H3.697l-.252.168L2 10.131V3h7v1h1V2.25A.25.25 0 0 0 9.75 2h-8.5a.25.25 0 0 0-.25.25V12l3-2h1V9z"/><path d="M14 6v7.131l-1.445-.964-.252-.167H7V6h7m.75-1h-8.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25H12l3 2V5.25a.25.25 0 0 0-.25-.25z"/><path d="M8 7h5v1H8zM8 9h2v1H8z"/></g></svg>`,
-    'href': 'https://typo3.org',
+    'icon': undefined,
+    'href': 'https://org.site-typo3.ddev.site/',
+    'isButton': false
+  },
+  'ecosystem': {
+    'label': 'Ecosystem',
+    'icon': undefined,
+    'href': 'https://ecosystem.site-typo3.ddev.site/',
+    'isButton': false
+  },
+  'newsevents': {
+    'label': 'News & Events',
+    'icon': undefined,
+    'href': 'https://news.site-typo3.ddev.site/',
     'isButton': false
   },
   'spacer1': { type: 'spacer' },
   'extensions': {
     'label': 'Extensions',
-    'icon': false,
+    'icon': undefined,
     'href': 'https://extensions.typo3.org',
     'isButton': false
   },
   'documentation': {
     'label': 'Documentation',
-    'icon': false,
+    'icon': undefined,
+    'href': 'https://docs.typo3.org',
     'isButton': false
   },
   'shop': {
     'label': 'Shop',
-    'icon': false,
+    'icon': undefined,
     'href': 'https://shop.typo3.com',
     'isButton': false
   },
   'mytypo3': {
     'label': 'My TYPO3',
-    'icon': false,
+    'icon': undefined,
     'href': 'https://my.typo3.org',
     'isButton': false
   },
@@ -393,14 +407,14 @@ export class Typo3UniverseElement extends LitElement {
   @property() public active: string | undefined;
   @property({type: Boolean, reflect: true}) temp: boolean = false;
 
+  willUpdate(): void {
+    this.shadowRoot!.adoptedStyleSheets = [this.temp ? tempStyles : defaultStyles];
+  }
+
   protected render(): TemplateResult {
-    const isTemp = this.temp;
-    const styles = isTemp ? tempStyles : defaultStyles;
-    const entries = isTemp ? tempEntries : defaultEntries;
+    const entries = this.temp ? tempEntries : defaultEntries;
 
     return html`
-      <style>${unsafeCSS(styles)}</style>
-
       <div class="universe">
         <div class="universe-container">
           <ul class="universe-menu">
@@ -408,18 +422,20 @@ export class Typo3UniverseElement extends LitElement {
               if ('type' in entry && entry.type === 'spacer') {
                 return html`<li class="universe-menu-spacer" aria-hidden="true"></li>`;
               }
+
+              const menuEntry = entry as MenuEntry;
               return html`
                 <li class="universe-menu-item">
-                  <a href=${entry.href} class=${classMap({
+                  <a href=${menuEntry.href} class=${classMap({
                     'universe-item': true,
-                    'universe-item--button': entry.isButton,
-                    'universe-item--link': !entry.isButton,
+                    'universe-item--button': menuEntry.isButton,
+                    'universe-item--link': !menuEntry.isButton,
                     'universe-item--active': identifier === this.active
                   })}>
-                    ${entry.icon
-                      ? html`<span class="universe-item-icon" aria-hidden="true">${entry.icon}</span>`
+                    ${menuEntry.icon
+                      ? html`<span class="universe-item-icon" aria-hidden="true">${menuEntry.icon}</span>`
                       : null}
-                    <span class="universe-item-text">${entry.label}</span>
+                    <span class="universe-item-text">${menuEntry.label}</span>
                   </a>
                 </li>`;
             })}
