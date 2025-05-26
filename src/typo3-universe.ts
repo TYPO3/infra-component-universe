@@ -197,8 +197,8 @@ export class Typo3UniverseElement extends LitElement {
     }
     .universe-item:focus-visible {
       box-shadow:
-      inset 0 0 0 2px var(--item-background),
-      inset 0 0 0 4px var(--item-color);
+        inset 0 0 0 2px var(--item-background),
+        inset 0 0 0 4px var(--item-color);
     }
 
     .universe-item-icon {
