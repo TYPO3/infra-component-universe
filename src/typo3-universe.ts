@@ -112,217 +112,213 @@ export class Typo3UniverseElement extends LitElement {
   @property({ type: Object, converter: menuConverter }) menu: Menu = defaultEntries;
   @property({ type: Boolean, attribute: 'preview', reflect: true }) preview: boolean = false;
 
-  static get styles() {
-    return [
-      css`
-        :host {
-          --universe-zindex: 1;
-          --universe-height: 44px;
-          --universe-font-size: 14px;
-          --universe-maxwidth: 1100px;
-          --universe-text-color: #dadada;
-          --universe-link-color: #ffffff;
-          --universe-link-padding-horizontal: 1rem;
-          --universe-link-padding-vertical: .5rem;
-          --universe-background-color: #313131;
-          --universe-link-color: #ffffff;
-          --universe-link-background: #414141;
-          --universe-link-hover-color: #ffffff;
-          --universe-link-hover-background: #515151;
-          --universe-caret-color: #ffffff;
-          --universe-button-color: #ffffff;
-          --universe-button-background: #ff8700;
-          --universe-button-hover-color: #ffffff;
-          --universe-button-hover-background: #ee7600;
-        }
+  static styles = css`
+    :host {
+      --universe-zindex: 1;
+      --universe-height: 44px;
+      --universe-font-size: 14px;
+      --universe-maxwidth: 1100px;
+      --universe-text-color: #dadada;
+      --universe-link-color: #ffffff;
+      --universe-link-padding-horizontal: 1rem;
+      --universe-link-padding-vertical: .5rem;
+      --universe-background-color: #313131;
+      --universe-link-color: #ffffff;
+      --universe-link-background: #414141;
+      --universe-link-hover-color: #ffffff;
+      --universe-link-hover-background: #515151;
+      --universe-caret-color: #ffffff;
+      --universe-button-color: #ffffff;
+      --universe-button-background: #ff8700;
+      --universe-button-hover-color: #ffffff;
+      --universe-button-hover-background: #ee7600;
+    }
 
-        *,
-        *:before,
-        *:after {
-          box-sizing: border-box;
-        }
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+    }
 
-        .universe {
-          position: relative;
-          z-index: var(--universe-zindex);
-          font-size: var(--universe-font-size);
-          color: var(--universe-text-color);
-          background-color: var(--universe-background-color);
-          height: var(--universe-height);
-          overflow: hidden;
-          white-space: nowrap;
-        }
+    .universe {
+      position: relative;
+      z-index: var(--universe-zindex);
+      font-size: var(--universe-font-size);
+      color: var(--universe-text-color);
+      background-color: var(--universe-background-color);
+      height: var(--universe-height);
+      overflow: hidden;
+      white-space: nowrap;
+    }
 
-        .universe-container {
-          display: flex;
-          align-items: flex-end;
-          max-width: var(--universe-maxwidth);
-          margin: 0 auto;
-          padding: 0;
-          overflow-x: scroll;
-        }
+    .universe-container {
+      display: flex;
+      align-items: flex-end;
+      max-width: var(--universe-maxwidth);
+      margin: 0 auto;
+      padding: 0;
+      overflow-x: scroll;
+    }
 
-        .universe-menu {
-          display: flex;
-          padding: 0;
-          margin: 0;
-          width: 100%;
-          justify-content: flex-end;
-          gap: 1px;
-          list-style: none;
-        }
+    .universe-menu {
+      display: flex;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      justify-content: flex-end;
+      gap: 1px;
+      list-style: none;
+    }
 
-        .universe-menu-spacer {
-          display: block;
-          flex-grow: 1;
-        }
+    .universe-menu-spacer {
+      display: block;
+      flex-grow: 1;
+    }
 
-        .universe-item {
-          --item-background: var(--universe-background-color);
-          --item-color: var(--universe-text-color);
-          --item-padding-vertical: var(--universe-link-padding-vertical);
-          --item-padding-horizontal: var(--universe-link-padding-horizontal);
-          color: var(--item-color);
-          background: var(--item-background);
-          position: relative;
-          display: flex;
-          gap: .5em;
-          overflow: hidden;
-          height: var(--universe-height);
-          align-items: center;
-          padding: var(--item-padding-vertical) var(--item-padding-horizontal);
-          text-decoration: none;
-        }
-        .universe-item:focus {
-          z-index: 1;
-          outline: none;
-        }
-        .universe-item:focus-visible {
-          box-shadow:
-          inset 0 0 0 2px var(--item-background),
-          inset 0 0 0 4px var(--item-color);
-        }
+    .universe-item {
+      --item-background: var(--universe-background-color);
+      --item-color: var(--universe-text-color);
+      --item-padding-vertical: var(--universe-link-padding-vertical);
+      --item-padding-horizontal: var(--universe-link-padding-horizontal);
+      color: var(--item-color);
+      background: var(--item-background);
+      position: relative;
+      display: flex;
+      gap: .5em;
+      overflow: hidden;
+      height: var(--universe-height);
+      align-items: center;
+      padding: var(--item-padding-vertical) var(--item-padding-horizontal);
+      text-decoration: none;
+    }
+    .universe-item:focus {
+      z-index: 1;
+      outline: none;
+    }
+    .universe-item:focus-visible {
+      box-shadow:
+      inset 0 0 0 2px var(--item-background),
+      inset 0 0 0 4px var(--item-color);
+    }
 
-        .universe-item-icon {
-          display: block;
-          height: 16px;
-          width: 16px;
-          overflow: hidden;
-          opacity: .75;
-        }
-        .universe-item-icon svg {
-          display: block;
-          height: 16px;
-          width: 16px;
-        }
-        [dir="rtl"] .universe-item-icon {
-          transform: scaleX(-1);
-        }
+    .universe-item-icon {
+      display: block;
+      height: 16px;
+      width: 16px;
+      overflow: hidden;
+      opacity: .75;
+    }
+    .universe-item-icon svg {
+      display: block;
+      height: 16px;
+      width: 16px;
+    }
+    [dir="rtl"] .universe-item-icon {
+      transform: scaleX(-1);
+    }
 
-        .universe-item--active:before {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          height: .8em;
-          width: .8em;
-          transform: translate(-50%, 0);
-          border: calc(.4em + 4px) solid transparent;
-          border-bottom-color: var(--item-background);
-        }
+    .universe-item--active:before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      height: .8em;
+      width: .8em;
+      transform: translate(-50%, 0);
+      border: calc(.4em + 4px) solid transparent;
+      border-bottom-color: var(--item-background);
+    }
 
-        .universe-item--active:after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          height: .8em;
-          width: .8em;
-          transform: translate(-50%, 0);
-          border: .4em solid transparent;
-          border-bottom-color: var(--universe-caret-color);
-        }
+    .universe-item--active:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      height: .8em;
+      width: .8em;
+      transform: translate(-50%, 0);
+      border: .4em solid transparent;
+      border-bottom-color: var(--universe-caret-color);
+    }
 
-        .universe-item--link {
-          --item-color: var(--universe-link-color);
-          --item-background: var(--universe-link-background);
-        }
-        .universe-item--link:focus,
-        .universe-item--link:hover {
-          --item-color: var(--universe-link-hover-color);
-          --item-background: var(--universe-link-hover-background);
-        }
+    .universe-item--link {
+      --item-color: var(--universe-link-color);
+      --item-background: var(--universe-link-background);
+    }
+    .universe-item--link:focus,
+    .universe-item--link:hover {
+      --item-color: var(--universe-link-hover-color);
+      --item-background: var(--universe-link-hover-background);
+    }
 
-        .universe-item--button {
-          --item-color: var(--universe-button-color);
-          --item-background: var(--universe-button-background);
-        }
-        .universe-item--button:focus,
-        .universe-item--button:hover {
-          --item-color: var(--universe-button-hover-color);
-          --item-background: var(--universe-button-hover-background);
-        }
+    .universe-item--button {
+      --item-color: var(--universe-button-color);
+      --item-background: var(--universe-button-background);
+    }
+    .universe-item--button:focus,
+    .universe-item--button:hover {
+      --item-color: var(--universe-button-hover-color);
+      --item-background: var(--universe-button-hover-background);
+    }
 
-        :host([preview]) {
-          --universe-height: 40px;
-          --universe-font-size: 14px;
-          --universe-maxwidth: 1440px;
-          --universe-text-color: #fff;
-          --universe-divider-color: #555;
-          --universe-link-color: #fff;
-          --universe-link-padding-horizontal: .9375rem;
-          --universe-link-padding-vertical: .625rem;
-          --universe-background-color: #313130;
-          --universe-link-color: #fff;
-          --universe-link-background: #313130;
-          --universe-link-hover-color: #fff;
-        }
+    :host([preview]) {
+      --universe-height: 40px;
+      --universe-font-size: 14px;
+      --universe-maxwidth: 1440px;
+      --universe-text-color: #fff;
+      --universe-divider-color: #555;
+      --universe-link-color: #fff;
+      --universe-link-padding-horizontal: .9375rem;
+      --universe-link-padding-vertical: .625rem;
+      --universe-background-color: #313130;
+      --universe-link-color: #fff;
+      --universe-link-background: #313130;
+      --universe-link-hover-color: #fff;
+    }
 
-        :host([preview]) .universe-menu {
-          justify-content: flex-start;
-        }
+    :host([preview]) .universe-menu {
+      justify-content: flex-start;
+    }
 
-        :host([preview]) .universe-menu-item {
-          border-right: 1px solid var(--universe-divider-color);
-        }
+    :host([preview]) .universe-menu-item {
+      border-right: 1px solid var(--universe-divider-color);
+    }
 
-        :host([preview]) .universe-menu-item:has(+ .universe-menu-spacer),
-        :host([preview]) .universe-menu-item + .universe-menu-spacer,
-        :host([preview]) .universe-menu-spacer ~ .universe-menu-item {
-          border-right: unset;
-        }
+    :host([preview]) .universe-menu-item:has(+ .universe-menu-spacer),
+    :host([preview]) .universe-menu-item + .universe-menu-spacer,
+    :host([preview]) .universe-menu-spacer ~ .universe-menu-item {
+      border-right: unset;
+    }
 
-        :host([preview]) .universe-menu-spacer ~ .universe-menu-item .universe-item {
-          padding-left: calc(var(--item-padding-horizontal) * 0.67);
-          padding-right: calc(var(--item-padding-horizontal) * 0.67);
-        }
+    :host([preview]) .universe-menu-spacer ~ .universe-menu-item .universe-item {
+      padding-left: calc(var(--item-padding-horizontal) * 0.67);
+      padding-right: calc(var(--item-padding-horizontal) * 0.67);
+    }
 
-        :host([preview]) .universe-menu-spacer ~ .universe-menu-item .universe-item:hover {
-          --item-background: unset;
-          text-decoration: underline;
-        }
+    :host([preview]) .universe-menu-spacer ~ .universe-menu-item .universe-item:hover {
+      --item-background: unset;
+      text-decoration: underline;
+    }
 
-        :host([preview]) .universe-item {
-          gap: .25rem;
-        }
+    :host([preview]) .universe-item {
+      gap: .25rem;
+    }
 
-        :host([preview]) .universe-item-icon {
-          opacity: .56;
-        }
+    :host([preview]) .universe-item-icon {
+      opacity: .56;
+    }
 
-        :host([preview]) .universe-item--active:before,
-        :host([preview]) .universe-item--active:after {
-          content: unset;
-        }
+    :host([preview]) .universe-item--active:before,
+    :host([preview]) .universe-item--active:after {
+      content: unset;
+    }
 
-        :host([preview]) .universe-item--link.universe-item--active,
-        :host([preview]) .universe-item--link.universe-item--active:hover {
-          --item-background: var(--universe-text-color);
-          --item-color: var(--universe-background-color);
-        }
-      `,
-    ]
-  }
+    :host([preview]) .universe-item--link.universe-item--active,
+    :host([preview]) .universe-item--link.universe-item--active:hover {
+      --item-background: var(--universe-text-color);
+      --item-color: var(--universe-background-color);
+    }
+  `;
 
   protected render(): TemplateResult {
     return html`
