@@ -1,6 +1,7 @@
 import { LitElement, html, svg, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
 export interface MenuEntry {
   readonly label: string,
@@ -61,64 +62,6 @@ const defaultEntries : Menu = {
     'icon': svg`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="currentColor"><path d="M14.5 9h-3.973l-.874 1H14v3H2v-3h4.346l-.873-1H1.5a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5z"/><path d="M10 11h1v1h-1zM12 11h1v1h-1zM11.27 6H4.73a.25.25 0 0 0-.188.414l3.27 3.743a.244.244 0 0 0 .377 0l3.27-3.743A.25.25 0 0 0 11.27 6z"/><path d="M7 2h2v4H7z"/></g></svg>`,
     'href': 'https://get.typo3.org',
     'isButton': true
-  }
-} as const;
-
-const tempEntries : Menu = {
-  'typo3': {
-    'label': 'TYPO3',
-    'icon': undefined,
-    'href': 'https://com.site-typo3.ddev.site/',
-    'isButton': false,
-  },
-  'community': {
-    'label': 'Community',
-    'icon': undefined,
-    'href': 'https://org.site-typo3.ddev.site/',
-    'isButton': false
-  },
-  'ecosystem': {
-    'label': 'Ecosystem',
-    'icon': undefined,
-    'href': 'https://ecosystem.site-typo3.ddev.site/',
-    'isButton': false
-  },
-  'newsevents': {
-    'label': 'News & Events',
-    'icon': undefined,
-    'href': 'https://news.site-typo3.ddev.site/',
-    'isButton': false
-  },
-  'spacer1': { type: 'spacer' },
-  'extensions': {
-    'label': 'Extensions',
-    'icon': undefined,
-    'href': 'https://extensions.typo3.org',
-    'isButton': false
-  },
-  'documentation': {
-    'label': 'Documentation',
-    'icon': undefined,
-    'href': 'https://docs.typo3.org',
-    'isButton': false
-  },
-  'shop': {
-    'label': 'Shop',
-    'icon': undefined,
-    'href': 'https://shop.typo3.com',
-    'isButton': false
-  },
-  'mytypo3': {
-    'label': 'My TYPO3',
-    'icon': undefined,
-    'href': 'https://my.typo3.org',
-    'isButton': false
-  },
-  'download': {
-    'label': 'Get TYPO3',
-    'icon': svg`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="currentColor"><path d="M14.5 9h-3.973l-.874 1H14v3H2v-3h4.346l-.873-1H1.5a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5z"/><path d="M10 11h1v1h-1zM12 11h1v1h-1zM11.27 6H4.73a.25.25 0 0 0-.188.414l3.27 3.743a.244.244 0 0 0 .377 0l3.27-3.743A.25.25 0 0 0 11.27 6z"/><path d="M7 2h2v4H7z"/></g></svg>`,
-    'href': 'https://get.typo3.org',
-    'isButton': false
   }
 } as const;
 
@@ -405,14 +348,36 @@ tempStyles.replaceSync(`
 export class Typo3UniverseElement extends LitElement {
 
   @property() public active: string | undefined;
-  @property({type: Boolean, reflect: true}) temp: boolean = false;
+  @property({ type: String, attribute: 'data-entries' }) menuData: string = '';
+
+  parsedMenu: { [key: string]: MenuEntry | { type: 'spacer' } } = {};
 
   willUpdate(): void {
-      this.shadowRoot!.adoptedStyleSheets = [this.temp ? tempStyles : defaultStyles];
+    try {
+      const parsed = this.menuData ? JSON.parse(this.menuData) : null;
+      if (Array.isArray(parsed)) {
+        // Konvertiere Array zu Objekt mit IDs als Schlüssel (z.B. label als Key)
+        this.parsedMenu = {};
+        parsed.forEach((entry, index) => {
+          if ('type' in entry && entry.type === 'spacer') {
+            this.parsedMenu[`spacer-${index}`] = entry;
+          } else {
+            this.parsedMenu[entry.label.toLowerCase().replace(/\s+/g, '-')] = entry;
+          }
+        });
+      } else {
+        this.parsedMenu = {};
+      }
+    } catch (e) {
+      console.warn('Invalid menuData JSON', e);
+      this.parsedMenu = {};
+    }
+
+    this.shadowRoot!.adoptedStyleSheets = [Object.keys(this.parsedMenu).length > 0 ? tempStyles : defaultStyles];
   }
 
   protected render(): TemplateResult {
-    const entries = this.temp ? tempEntries : defaultEntries;
+    const entries = Object.keys(this.parsedMenu).length > 0 ? this.parsedMenu : defaultEntries;
 
     return html`
       <div class="universe">
@@ -432,8 +397,8 @@ export class Typo3UniverseElement extends LitElement {
                     'universe-item--link': !menuEntry.isButton,
                     'universe-item--active': identifier === this.active
                   })}>
-                    ${menuEntry.icon
-                      ? html`<span class="universe-item-icon" aria-hidden="true">${menuEntry.icon}</span>`
+                    ${typeof menuEntry.icon === 'string'
+                      ? html`<span class="universe-item-icon" aria-hidden="true">${unsafeHTML(menuEntry.icon)}</span>`
                       : null}
                     <span class="universe-item-text">${menuEntry.label}</span>
                   </a>
