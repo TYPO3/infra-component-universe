@@ -41,11 +41,11 @@ const defaultEntries : Menu = {
     'icon': svg`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="currentColor"><path d="M5 9H3.697l-.252.168L2 10.131V3h7v1h1V2.25A.25.25 0 0 0 9.75 2h-8.5a.25.25 0 0 0-.25.25V12l3-2h1V9z"/><path d="M14 6v7.131l-1.445-.964-.252-.167H7V6h7m.75-1h-8.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25H12l3 2V5.25a.25.25 0 0 0-.25-.25z"/><path d="M8 7h5v1H8zM8 9h2v1H8z"/></g></svg>`,
     'href': 'https://typo3.org',
   },
-  // 'spacer-1': {
-  //   'type': MenuEntryType.spacer,
-  //   'label': '',
-  //   'href': '',
-  // },
+  'spacer-1': {
+    'type': MenuEntryType.spacer,
+    'label': '',
+    'href': '',
+  },
   'demo': {
     'type': MenuEntryType.link,
     'label': 'Demo',
@@ -92,7 +92,7 @@ const menuConverter = {
         return {
           ...acc,
           [item.id]: {
-            type: item.type,
+            type: item.type ?? MenuEntryType.link,
             label: item.label ?? '',
             icon: (typeof item.icon === 'string' && item.icon.trim()) ? svg`${unsafeSVG(item.icon)}` : null,
             href: item.href ?? ''
@@ -262,8 +262,6 @@ export class Typo3UniverseElement extends LitElement {
     }
 
     :host([preview]) {
-      --universe-height: 40px;
-      --universe-font-size: 14px;
       --universe-maxwidth: 1440px;
       --universe-text-color: #fff;
       --universe-divider-color: #555;
@@ -291,8 +289,7 @@ export class Typo3UniverseElement extends LitElement {
     }
 
     :host([preview]) .universe-menu-spacer ~ .universe-menu-item .universe-item {
-      padding-left: calc(var(--item-padding-horizontal) * 0.67);
-      padding-right: calc(var(--item-padding-horizontal) * 0.67);
+      --item-padding-horizontal: 10px;
     }
 
     :host([preview]) .universe-menu-spacer ~ .universe-menu-item .universe-item:hover {
