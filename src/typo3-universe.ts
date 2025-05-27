@@ -287,6 +287,14 @@ export class Typo3UniverseElement extends LitElement {
       --item-padding-horizontal: 10px;
     }
 
+    :host([preview]) .universe-menu-spacer ~ .universe-menu-item:last-child .universe-item {
+      padding-right: 15px;
+    }
+    :host-context([dir="rtl"]):host([preview]) .universe-menu-spacer ~ .universe-menu-item:last-child .universe-item {
+      padding-right: 10px;
+      padding-left: 15px;
+    }
+
     :host([preview]) .universe-menu-spacer ~ .universe-menu-item .universe-item:hover {
       --item-background: unset;
       text-decoration: underline;
