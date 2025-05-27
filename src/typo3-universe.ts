@@ -288,11 +288,11 @@ export class Typo3UniverseElement extends LitElement {
     }
 
     :host([preview]) .universe-menu-spacer ~ .universe-menu-item:last-child .universe-item {
-      padding-right: 15px;
+      padding-right: .9375rem;
     }
     :host-context([dir="rtl"]):host([preview]) .universe-menu-spacer ~ .universe-menu-item:last-child .universe-item {
-      padding-right: 10px;
-      padding-left: 15px;
+      padding-right: .625rem;
+      padding-left: .9375rem;
     }
 
     :host([preview]) .universe-menu-spacer ~ .universe-menu-item .universe-item:hover {
