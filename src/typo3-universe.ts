@@ -165,7 +165,6 @@ export class Typo3UniverseElement extends LitElement {
       padding: 0;
       margin: 0;
       width: 100%;
-      justify-content: flex-end;
       gap: 1px;
       list-style: none;
     }
@@ -272,10 +271,6 @@ export class Typo3UniverseElement extends LitElement {
       --universe-link-color: #fff;
       --universe-link-background: #313130;
       --universe-link-hover-color: #fff;
-    }
-
-    :host([preview]) .universe-menu {
-      justify-content: flex-start;
     }
 
     :host([preview]) .universe-menu-item {
