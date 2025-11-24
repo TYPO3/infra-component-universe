@@ -4,6 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 
 export enum MenuEntryType {
+  tab = 'tab',
   link = 'link',
   spacer = 'spacer'
 }
@@ -29,22 +30,22 @@ export interface Menu {
 
 const defaultEntries : Menu = {
   'typo3-com': {
-    'type': MenuEntryType.link,
+    'type': MenuEntryType.tab,
     'label': 'TYPO3',
     'href': 'https://typo3.com',
   },
   'typo3-community': {
-    'type': MenuEntryType.link,
+    'type': MenuEntryType.tab,
     'label': 'Community',
     'href': 'https://typo3.community',
   },
   'typo3-org': {
-    'type': MenuEntryType.link,
+    'type': MenuEntryType.tab,
     'label': 'Project',
     'href': 'https://typo3.org',
   },
   'typo3-news': {
-    'type': MenuEntryType.link,
+    'type': MenuEntryType.tab,
     'label': 'News & Events',
     'href': 'https://news.typo3.com',
   },
@@ -117,8 +118,8 @@ export class Typo3UniverseElement extends LitElement {
       --universe-text-color: #fff;
       --universe-divider-color: color-mix(in srgb, var(--universe-link-color) 15%, var(--universe-link-background));
       --universe-background-color: #313131;
-      --universe-link-padding-horizontal: .9375rem;
-      --universe-link-padding-vertical: .625rem;
+      --universe-item-padding-horizontal: .9375rem;
+      --universe-item-padding-vertical: .625rem;
       --universe-link-color: #fff;
       --universe-link-background: var(--universe-background-color);
       --universe-link-hover-color: #fff;
@@ -166,25 +167,15 @@ export class Typo3UniverseElement extends LitElement {
       flex-grow: 1;
     }
 
-    .universe-menu-item {
-      border-inline-end: 1px solid var(--universe-divider-color);
-    }
-
-    .universe-menu-item:has(+ .universe-menu-spacer),
-    .universe-menu-item + .universe-menu-spacer,
-    .universe-menu-spacer ~ .universe-menu-item {
-      border-inline-end-color: transparent;
-    }
-
-    .universe-menu-item:last-child {
-      border-inline-end: unset;
+    .universe-menu-item--tab + .universe-menu-item--tab {
+      border-inline-start: 1px solid var(--universe-divider-color);
     }
 
     .universe-item {
       --item-background: var(--universe-background-color);
       --item-color: var(--universe-text-color);
-      --item-padding-vertical: var(--universe-link-padding-vertical);
-      --item-padding-horizontal: var(--universe-link-padding-horizontal);
+      --item-padding-vertical: var(--universe-item-padding-vertical);
+      --item-padding-horizontal: var(--universe-item-padding-horizontal);
       color: var(--item-color);
       background: var(--item-background);
       position: relative;
@@ -196,6 +187,7 @@ export class Typo3UniverseElement extends LitElement {
       padding: var(--item-padding-vertical) var(--item-padding-horizontal);
       text-decoration: none;
     }
+
     .universe-item:focus {
       z-index: 1;
       outline: none;
@@ -208,38 +200,15 @@ export class Typo3UniverseElement extends LitElement {
       overflow: hidden;
       opacity: .56;
     }
+
     .universe-item-icon svg {
       display: block;
       height: 16px;
       width: 16px;
     }
+
     [dir="rtl"] .universe-item-icon {
       transform: scaleX(-1);
-    }
-
-    .universe-menu-spacer ~ .universe-menu-item .universe-item {
-      --item-padding-horizontal: 10px;
-    }
-
-    .universe-menu-spacer ~ .universe-menu-item:last-child .universe-item {
-      padding-inline-end: var(--universe-link-padding-horizontal);
-    }
-
-    .universe-item {
-      --item-color: var(--universe-link-color);
-      --item-background: var(--universe-link-background);
-    }
-    .universe-item:focus,
-    .universe-item:hover {
-      --item-color: var(--universe-link-hover-color);
-      --item-background: var(--universe-link-hover-background);
-    }
-
-    .universe-item--active,
-    .universe-item--active:focus,
-    .universe-item--active:hover {
-      --item-color: var(--universe-link-active-color);
-      --item-background: var(--universe-link-active-background);
     }
 
     .universe-item:focus-visible {
@@ -248,25 +217,44 @@ export class Typo3UniverseElement extends LitElement {
         inset 0 0 0 4px var(--item-color);
     }
 
-    .universe-item--active:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      height: .8em;
-      width: .8em;
-      transform: translate(-50%, 0);
-      border: .4em solid transparent;
-      border-bottom-color: var(--universe-caret-color, var(--item-background));
-    }
-
-    .universe-menu-spacer ~ .universe-menu-item .universe-item {
+    .universe-menu-item--tab .universe-item {
       --item-color: var(--universe-link-color);
       --item-background: var(--universe-link-background);
+    }
 
-      &:hover {
-        text-decoration: underline;
-        text-decoration-color: color-mix(in srgb, currentColor, transparent 25%);
+    .universe-menu-item--tab .universe-item:focus,
+    .universe-menu-item--tab .universe-item:hover {
+      --item-color: var(--universe-link-hover-color);
+      --item-background: var(--universe-link-hover-background);
+    }
+
+    .universe-menu-item--tab .universe-item--active,
+    .universe-menu-item--tab .universe-item--active:focus,
+    .universe-menu-item--tab .universe-item--active:hover {
+      --item-color: var(--universe-link-active-color);
+      --item-background: var(--universe-link-active-background);
+    }
+
+    .universe-menu-item--link {
+      .universe-item {
+        --item-padding-horizontal: 10px;
+        --item-color: var(--universe-link-color);
+        --item-background: var(--universe-link-background);
+
+        &:hover {
+          text-decoration: underline;
+          text-decoration-color: color-mix(in srgb, currentColor, transparent);
+        }
+      }
+
+      &:last-child {
+        .universe-item {
+          padding-inline-end: var(--universe-item-padding-horizontal);
+        }
+      }
+
+      .universe-item--active {
+        font-weight: bold;
       }
     }
   `;
@@ -282,10 +270,12 @@ export class Typo3UniverseElement extends LitElement {
               }
 
               return html`
-                <li class="universe-menu-item">
+                <li class="universe-menu-item${classMap({
+                  'universe-menu-item--link': entry.type === MenuEntryType.link,
+                  'universe-menu-item--tab': entry.type === MenuEntryType.tab,
+                })}">
                   <a href=${entry.href} class=${classMap({
                     'universe-item': true,
-                    'universe-item--link': entry.type === MenuEntryType.link,
                     'universe-item--spacer': entry.type === MenuEntryType.spacer,
                     'universe-item--active': identifier === this.active
                   })}>
