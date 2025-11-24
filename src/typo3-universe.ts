@@ -222,12 +222,7 @@ export class Typo3UniverseElement extends LitElement {
     }
 
     .universe-menu-spacer ~ .universe-menu-item:last-child .universe-item {
-      padding-inline-end: .9375rem;
-    }
-
-    .universe-menu-spacer ~ .universe-menu-item .universe-item:hover {
-      --item-background: unset;
-      text-decoration: underline;
+      padding-inline-end: var(--universe-link-padding-horizontal);
     }
 
     .universe-item {
@@ -247,6 +242,12 @@ export class Typo3UniverseElement extends LitElement {
       --item-background: var(--universe-link-active-background);
     }
 
+    .universe-item:focus-visible {
+      box-shadow:
+        inset 0 0 0 2px var(--item-background),
+        inset 0 0 0 4px var(--item-color);
+    }
+
     .universe-item--active:after {
       content: '';
       position: absolute;
@@ -257,6 +258,16 @@ export class Typo3UniverseElement extends LitElement {
       transform: translate(-50%, 0);
       border: .4em solid transparent;
       border-bottom-color: var(--universe-caret-color, var(--item-background));
+    }
+
+    .universe-menu-spacer ~ .universe-menu-item .universe-item {
+      --item-color: var(--universe-link-color);
+      --item-background: var(--universe-link-background);
+
+      &:hover {
+        text-decoration: underline;
+        text-decoration-color: color-mix(in srgb, currentColor, transparent 25%);
+      }
     }
   `;
 
