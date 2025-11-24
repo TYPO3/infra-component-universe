@@ -28,22 +28,22 @@ export interface Menu {
 }
 
 const defaultEntries : Menu = {
-  'services': {
+  'typo3-com': {
     'type': MenuEntryType.link,
     'label': 'TYPO3',
     'href': 'https://typo3.com',
   },
-  'community': {
+  'typo3-community': {
     'type': MenuEntryType.link,
     'label': 'Community',
     'href': 'https://typo3.community',
   },
-  'project': {
+  'typo3-org': {
     'type': MenuEntryType.link,
     'label': 'Project',
     'href': 'https://typo3.org',
   },
-  'news': {
+  'typo3-news': {
     'type': MenuEntryType.link,
     'label': 'News & Events',
     'href': 'https://news.typo3.com',
@@ -115,15 +115,16 @@ export class Typo3UniverseElement extends LitElement {
       --universe-font-size: 14px;
       --universe-maxwidth: 1430px;
       --universe-text-color: #fff;
-      --universe-divider-color: #555;
-      --universe-link-color: #fff;
+      --universe-divider-color: color-mix(in srgb, var(--universe-link-color) 15%, var(--universe-link-background));
+      --universe-background-color: #313131;
       --universe-link-padding-horizontal: .9375rem;
       --universe-link-padding-vertical: .625rem;
-      --universe-background-color: #313131;
+      --universe-link-color: #fff;
+      --universe-link-background: var(--universe-background-color);
       --universe-link-hover-color: #fff;
-      --universe-link-background: #414141;
       --universe-link-hover-background: #515151;
-      --universe-caret-color: #ffffff;
+      --universe-link-active-color: #313131;
+      --universe-link-active-background: #ffffff;
     }
 
     *,
@@ -157,7 +158,6 @@ export class Typo3UniverseElement extends LitElement {
       padding: 0;
       margin: 0;
       width: 100%;
-      gap: 1px;
       list-style: none;
     }
 
@@ -167,13 +167,17 @@ export class Typo3UniverseElement extends LitElement {
     }
 
     .universe-menu-item {
-      border-right: 1px solid var(--universe-divider-color);
+      border-inline-end: 1px solid var(--universe-divider-color);
     }
 
     .universe-menu-item:has(+ .universe-menu-spacer),
     .universe-menu-item + .universe-menu-spacer,
     .universe-menu-spacer ~ .universe-menu-item {
-      border-right: unset;
+      border-inline-end-color: transparent;
+    }
+
+    .universe-menu-item:last-child {
+      border-inline-end: unset;
     }
 
     .universe-item {
@@ -218,11 +222,7 @@ export class Typo3UniverseElement extends LitElement {
     }
 
     .universe-menu-spacer ~ .universe-menu-item:last-child .universe-item {
-      padding-right: .9375rem;
-    }
-    :host-context([dir="rtl"]) .universe-menu-spacer ~ .universe-menu-item:last-child .universe-item {
-      padding-right: .625rem;
-      padding-left: .9375rem;
+      padding-inline-end: .9375rem;
     }
 
     .universe-menu-spacer ~ .universe-menu-item .universe-item:hover {
@@ -230,20 +230,33 @@ export class Typo3UniverseElement extends LitElement {
       text-decoration: underline;
     }
 
-    .universe-item--link {
+    .universe-item {
       --item-color: var(--universe-link-color);
-      --item-background: var(--universe-background-color);
-    }
-    .universe-item--link:focus,
-    .universe-item--link:hover {
-      --item-color: var(--universe-link-hover-color);
       --item-background: var(--universe-link-background);
     }
+    .universe-item:focus,
+    .universe-item:hover {
+      --item-color: var(--universe-link-hover-color);
+      --item-background: var(--universe-link-hover-background);
+    }
 
-    .universe-item--link.universe-item--active,
-    .universe-item--link.universe-item--active:hover {
-      --item-background: var(--universe-text-color);
-      --item-color: var(--universe-background-color);
+    .universe-item--active,
+    .universe-item--active:focus,
+    .universe-item--active:hover {
+      --item-color: var(--universe-link-active-color);
+      --item-background: var(--universe-link-active-background);
+    }
+
+    .universe-item--active:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      height: .8em;
+      width: .8em;
+      transform: translate(-50%, 0);
+      border: .4em solid transparent;
+      border-bottom-color: var(--universe-caret-color, var(--item-background));
     }
   `;
 
