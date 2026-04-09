@@ -64,10 +64,10 @@ const defaultEntries : Menu = {
     'label': 'Documentation',
     'href': 'https://docs.typo3.org',
   },
-  'shop': {
+  'services': {
     'type': MenuEntryType.link,
-    'label': 'Shop',
-    'href': 'https://shop.typo3.com',
+    'label': 'Services',
+    'href': 'https://typo3.com/products-services',
   },
   'mytypo3': {
     'type': MenuEntryType.link,
